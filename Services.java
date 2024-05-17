@@ -1,31 +1,34 @@
 package tpe;
 
-import tpe.filtros.ArbolBinarioBusqueda;
+import tpe.controllers.TaskController;
+import tpe.schemes.Task;
 import tpe.utils.CSVReader;
-
-import java.util.List;
 
 /**
  * NO modificar la interfaz de esta clase ni sus métodos públicos.
  * Sólo se podrá adaptar el nombre de la clase "Tarea" según sus decisiones
  * de implementación.
  */
-public class Servicios {
-
+public class Services {
+    private TaskController taskController;
     private CSVReader reader;
     /*
      * Expresar la complejidad temporal del constructor.
      */
-    public Servicios(String pathProcesadores, String pathTareas) {
+    public Services(String pathProcesadores, String pathTareas) {
         this.reader = new CSVReader();
         this.reader.readProcessors(pathProcesadores);
         this.reader.readTasks(pathTareas);
+        this.taskController= new TaskController();
     }
 
     /*
      * Expresar la complejidad temporal del servicio 1.
      */
-    //public Tarea servicio1(String ID) {	}
+    public Task service1(String id) {
+        Task task = this.taskController.findTask(id);
+        return task;
+    }
 
     /*
      * Expresar la complejidad temporal del servicio 2.
@@ -35,10 +38,9 @@ public class Servicios {
     /*
      * Expresar la complejidad temporal del servicio 3.
      */
-    public List<Tarea> servicio3(int prioridadInferior, int prioridadSuperior) {
-        ArbolBinarioBusqueda arbol= new ArbolBinarioBusqueda();
+   // public List<Task> servicio3(int prioridadInferior, int prioridadSuperior) {}
+
+
         ///si la lista de referencia del arbol no es estatica, cada vez que instancio un arbol tengo que andar copiando la lista de tareas, siempre, todas las veces;
-        return null;
-    }
 
 }

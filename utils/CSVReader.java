@@ -1,7 +1,8 @@
 package tpe.utils;
 
-import tpe.Tarea;
-import tpe.filtros.ArbolBinarioBusqueda;
+import tpe.filters.TreeSearchTaskID;
+import tpe.schemes.Task;
+import tpe.schemes.TreeSearchTask;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 
 
 public class CSVReader {
-    private ArrayList<Tarea> tareas;
+    private ArrayList<Task> tareas;
 
 
     ////podria aplicar un patron singleton para el reader
@@ -21,7 +22,7 @@ public class CSVReader {
 
 
 
-    public ArrayList<Tarea> getTasks(){
+    public ArrayList<Task> getTasks(){
         return new ArrayList<>(this.tareas);
     }
 
@@ -40,12 +41,13 @@ public class CSVReader {
             Boolean critica = Boolean.parseBoolean(line[3].trim());
             Integer prioridad = Integer.parseInt(line[4].trim());
             // Aca instanciar lo que necesiten en base a los datos leidos
-            Tarea nuevaTarea= new Tarea(id,nombre,tiempo,critica,prioridad);
+            Task nuevaTarea= new Task(id,nombre,tiempo,critica,prioridad);
             this.tareas.add(nuevaTarea);
         }
-        ///cuando ejecuto el metodo de leer tareas, actualizo la lista de referencia del arbolbinariodebusqueda. La lista del arbol es estatica para
+
+        ///cuando ejecuto el metodo de leer tareas, actualizo la lista de referencia de los arboles de busqueda ordenados. La lista del arbol es estatica para
         ///que sea siempre la misma y no se pierda al instanciar un nuevo arbol
-        ArbolBinarioBusqueda.setListaRef(getTasks());
+        TreeSearchTaskID.setListaRef(getTasks());
 
     }
 
