@@ -4,8 +4,8 @@ import tpe.schemes.Task;
 import tpe.utils.Helper;
 
 public class TaskController {
-    private TreeSearch treeOrderById;
-    private TreeSearch treeOrderByLevel;
+    //el task controller contendra los arboles binarios de busqueda de las tareas
+
     private Helper helper;
 
     public TaskController(){
@@ -15,7 +15,7 @@ public class TaskController {
 
 
     public Task findTask(String id){
-
+        //buscar en arbol la tarea con id=id
 
     }
 
