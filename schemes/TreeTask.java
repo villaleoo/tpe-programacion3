@@ -136,5 +136,5 @@ public abstract class TreeTask {
     }
 
     protected abstract void add(Node node, Node newNodeTask);
-    protected abstract void insertRefInBalancedOrder();
+    protected abstract void insertRefsInBalancedOrder();
 }

@@ -1,11 +1,11 @@
 package tpe.schemes;
 
-public class NodeSimple implements Node{
+public class SimpleNode implements Node{
     private int numericID;
     private int indexRef;
-    private NodeSimple left,right;
+    private SimpleNode left,right;
 
-    public NodeSimple(int numericID, int indexRef){
+    public SimpleNode(int numericID, int indexRef){
         this.numericID=numericID;
         this.indexRef=indexRef;
         this.left=null;
@@ -23,23 +23,23 @@ public class NodeSimple implements Node{
     }
 
     @Override
-    public NodeSimple getRight() {
+    public SimpleNode getRight() {
         return this.right;
     }
 
     @Override
-    public NodeSimple getLeft() {
+    public SimpleNode getLeft() {
         return this.left;
     }
 
     @Override
     public void setLeft(Object leftNode) {
-        this.left = (NodeSimple) leftNode;
+        this.left = (SimpleNode) leftNode;
     }
 
     @Override
     public void setRight(Object rightNode) {
-        this.right= (NodeSimple) rightNode;
+        this.right= (SimpleNode) rightNode;
     }
 
 

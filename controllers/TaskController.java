@@ -1,17 +1,17 @@
 package tpe.controllers;
 
-import tpe.filters.SearchTreeTaskId;
+import tpe.filters.SearchTaskId;
 import tpe.schemes.Task;
 import tpe.utils.Helper;
 
 public class TaskController {
     //el task controller contendra los arboles binarios de busqueda de las tareas
-    private SearchTreeTaskId treeID;
+    private SearchTaskId treeID;
     private Helper helper;
 
     public TaskController(){
         this.helper=new Helper();
-        this.treeID=new SearchTreeTaskId();
+        this.treeID=new SearchTaskId();
     }
 
 

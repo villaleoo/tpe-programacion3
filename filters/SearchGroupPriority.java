@@ -3,7 +3,7 @@ package tpe.filters;
 import tpe.schemes.Node;
 import tpe.schemes.TreeTask;
 
-public class SearchTreeGroupPriority extends TreeTask {
+public class SearchGroupPriority extends TreeTask {
 
     @Override
     protected void add(Node node, Node newNodeTask) {
@@ -11,7 +11,7 @@ public class SearchTreeGroupPriority extends TreeTask {
     }
 
     @Override
-    protected void insertRefInBalancedOrder() {
+    protected void insertRefsInBalancedOrder() {
 
     }
 }

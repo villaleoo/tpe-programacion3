@@ -1,6 +1,6 @@
 package tpe.utils;
 
-import tpe.schemes.NodeSimple;
+import tpe.schemes.SimpleNode;
 import tpe.schemes.Task;
 
 import java.util.ArrayList;
@@ -18,12 +18,12 @@ public class Helper {
         return -1;
     }
 
-    public ArrayList<NodeSimple> parseToNodeTaskId(ArrayList<Task> tasks){
-        ArrayList<NodeSimple> result=new ArrayList<>();
+    public ArrayList<SimpleNode> parseToNodeTaskId(ArrayList<Task> tasks){
+        ArrayList<SimpleNode> result=new ArrayList<>();
         int index=0;
 
         for(Task t : tasks){
-           NodeSimple node = new NodeSimple(this.intTaskId(t.getId_tarea()),index);
+           SimpleNode node = new SimpleNode(this.intTaskId(t.getId_tarea()),index);
            result.add(node);
            index++;
         }

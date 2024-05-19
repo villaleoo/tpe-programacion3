@@ -2,12 +2,12 @@ package tpe.schemes;
 
 import java.util.ArrayList;
 
-public class NodeGroup implements Node{
+public class GroupNode implements Node{
     private int id;
     private ArrayList<Integer> refs;
-    private NodeGroup left,right;
+    private GroupNode left,right;
 
-    public NodeGroup(int id){
+    public GroupNode(int id){
         this.id=id;
         this.refs=new ArrayList<>();
         this.left=null;
@@ -29,22 +29,22 @@ public class NodeGroup implements Node{
     }
 
     @Override
-    public NodeGroup getRight() {
+    public GroupNode getRight() {
         return this.right;
     }
 
     @Override
-    public NodeGroup getLeft() {
+    public GroupNode getLeft() {
         return this.left;
     }
 
     @Override
     public void setLeft(Object leftNode) {
-        this.left = (NodeGroup) leftNode;
+        this.left = (GroupNode) leftNode;
     }
 
     @Override
     public void setRight(Object rightNode) {
-        this.right= (NodeGroup) rightNode;
+        this.right= (GroupNode) rightNode;
     }
 }
