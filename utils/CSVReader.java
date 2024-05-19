@@ -1,8 +1,7 @@
 package tpe.utils;
 
-import tpe.filters.TreeSearchTaskID;
 import tpe.schemes.Task;
-import tpe.schemes.TreeSearchTask;
+import tpe.schemes.TreeTask;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -44,10 +43,10 @@ public class CSVReader {
             Task nuevaTarea= new Task(id,nombre,tiempo,critica,prioridad);
             this.tareas.add(nuevaTarea);
         }
-
+        TreeTask.setRefList(tareas);
         ///cuando ejecuto el metodo de leer tareas, actualizo la lista de referencia de los arboles de busqueda ordenados. La lista del arbol es estatica para
         ///que sea siempre la misma y no se pierda al instanciar un nuevo arbol
-        TreeSearchTaskID.setListaRef(getTasks());
+
 
     }
 

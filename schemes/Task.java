@@ -1,12 +1,12 @@
 package tpe.schemes;
 
-public class Task implements Comparable<Task>, Node<Task>{
+public class Task implements Comparable<Task>{
     private String id_tarea;
     private String nombre_tarea;
     private float tiempo_ejecucion;
     private boolean esCritica;
     private int nivel_prioridad;
-    private Task left,right;
+
 
     public Task(String id_tarea, String nombre_tarea, float tiempo_ejecucion, boolean esCritica, int nivel_prioridad){
         this.id_tarea=id_tarea;
@@ -14,8 +14,7 @@ public class Task implements Comparable<Task>, Node<Task>{
         this.tiempo_ejecucion=tiempo_ejecucion;
         this.esCritica=esCritica;
         this.nivel_prioridad=nivel_prioridad;
-        this.left=null;
-        this.right=null;
+
     }
 
     public String getId_tarea() {
@@ -58,23 +57,5 @@ public class Task implements Comparable<Task>, Node<Task>{
     }
 
 
-    @Override
-    public Task getRight() {
-        return this.right;
-    }
 
-    @Override
-    public Task getLeft() {
-        return this.left;
-    }
-
-    @Override
-    public void setLeft(Task leftNode) {
-        this.left=leftNode;
-    }
-
-    @Override
-    public void setRight(Task rightNode) {
-        this.right=rightNode;
-    }
 }

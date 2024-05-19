@@ -20,6 +20,8 @@ public class Services {
         this.reader.readProcessors(pathProcesadores);
         this.reader.readTasks(pathTareas);
         this.taskController= new TaskController();
+
+        //cuando se instancia un CSVReader, el CSVReader guarda las tareas en una lista de referencia para los arboles de busqueda Ó los guarda en los mismos arboles a los datos
     }
 
     /*
@@ -27,6 +29,10 @@ public class Services {
      */
     public Task service1(String id) {
         Task task = this.taskController.findTask(id);
+
+        if(task == null){
+            System.out.println("No se encontraron tareas con id = "+id);
+        }
         return task;
     }
 
