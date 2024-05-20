@@ -136,6 +136,16 @@ public abstract class TreeTask {
         return hasElem;
     }
 
+    protected void insertRefsInBalancedOrder() {
+        ArrayList<Node> listOrderInsert =new ArrayList<>();
+        this.getInsertionOrder(0,this.getReferences().size()-1,listOrderInsert);
+
+
+        for(Node node: listOrderInsert){
+            this.insert(node);
+        }
+    }
+
     protected void getInsertionOrder(int i, int f, ArrayList<Node> tmp){
         int middle;
 
@@ -151,19 +161,7 @@ public abstract class TreeTask {
         }
     }
 
-    protected void insertRefsInBalancedOrder() {
-        ArrayList<Node> listOrderInsert =new ArrayList<>();
-        this.getInsertionOrder(0,this.getReferences().size()-1,listOrderInsert);
-
-
-        for(Node node: listOrderInsert){
-            this.insert(node);
-        }
-    }
-
-    protected ArrayList<Node> getReferences(){
-        return this.references;
-    };
+    protected ArrayList<Node> getReferences(){ return this.references;};
 
     protected abstract void add(Node node, Node newNode);
     protected abstract void initTree();
