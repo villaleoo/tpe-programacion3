@@ -53,7 +53,7 @@ public class Task implements Comparable<Task>{
 
     @Override
     public String toString() {
-        return "id_tarea: "+id_tarea+";\nnombre_tarea: "+nombre_tarea+";\ntiempo_ejecucion: "+tiempo_ejecucion+";\nes_critica: "+esCritica+";\nnivel_prioridad: "+nivel_prioridad+";\n";
+        return "\nid_tarea: "+id_tarea+";\nnombre_tarea: "+nombre_tarea+";\ntiempo_ejecucion: "+tiempo_ejecucion+";\nes_critica: "+esCritica+";\nnivel_prioridad: "+nivel_prioridad+";\n";
     }
 
 

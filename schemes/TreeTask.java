@@ -5,9 +5,12 @@ import tpe.utils.Helper;
 import java.util.ArrayList;
 
 public abstract class TreeTask {
+    protected static ArrayList<Task> refList;
     protected Node root;
     protected Helper helper;
-    protected static ArrayList<Task> refList;
+    protected ArrayList<Task> refListInOrder;
+    protected ArrayList<Node> references;
+
 
     public TreeTask(){
         this.helper=new Helper();
@@ -22,13 +25,6 @@ public abstract class TreeTask {
         }
     }
 
-    protected ArrayList<Task> getCopyRefList(){
-        return new ArrayList<>(refList);
-    }
-
-    public boolean isEmpty() { return this.root == null; }
-
-    //inserta un nuevo nodo al arbol, llama a la funcion recursiva add implementada en cada arbol hijo
     protected void insert(Node node) {
         if (this.root == null) {
             this.root = node;
@@ -37,6 +33,12 @@ public abstract class TreeTask {
         }
 
     }
+
+    protected ArrayList<Task> getCopyRefList(){
+        return new ArrayList<>(refList);
+    }
+
+    public boolean isEmpty() { return this.root == null; }
 
     public int getHeight() {
         return this.isEmpty() ? 0 : this.getH(this.root);
@@ -78,11 +80,11 @@ public abstract class TreeTask {
             System.out.println("-");
         }
 
-        System.out.println(node.getID());
+        System.out.println(node.getId());
     }
 
     protected void preOrder(Node node) {
-        System.out.println(node.getID());
+        System.out.println(node.getId());
 
         if (node.getLeft() != null) {
             this.preOrder(node.getLeft());
@@ -105,7 +107,7 @@ public abstract class TreeTask {
             System.out.println("-");
         }
 
-        System.out.println(node.getID());
+        System.out.println(node.getId());
         if (node.getRight() != null) {
             this.inOrder(node.getRight());
         } else {
@@ -118,13 +120,12 @@ public abstract class TreeTask {
         Node tmp = this.root;
         boolean hasElem = false;
 
-        //como arranca en el root quizas nunca se meta en el tmp.getLeft(); ->> esto no es asi porque el root no es el menor de todos, es el del medio 📌
         while(tmp != null && !hasElem) {
 
-            hasElem = tmp.getID() == id;
+            hasElem = tmp.getId() == id;
 
             if (!hasElem) {
-                if (tmp.getID() < id) {
+                if (tmp.getId() < id) {
                     tmp = tmp.getRight();
                 } else {
                     tmp = tmp.getLeft();
@@ -135,6 +136,36 @@ public abstract class TreeTask {
         return hasElem;
     }
 
-    protected abstract void add(Node node, Node newNodeTask);
-    protected abstract void insertRefsInBalancedOrder();
+    protected void getInsertionOrder(int i, int f, ArrayList<Node> tmp){
+        int middle;
+
+        if (f-i == 0) {
+            tmp.add(this.getReferences().get(i));
+
+        }else if (i < f){
+            middle=(i+f)/2;
+            tmp.add(this.getReferences().get(middle));
+
+            getInsertionOrder(i,middle-1,tmp);
+            getInsertionOrder(middle+1,f,tmp);
+        }
+    }
+
+    protected void insertRefsInBalancedOrder() {
+        ArrayList<Node> listOrderInsert =new ArrayList<>();
+        this.getInsertionOrder(0,this.getReferences().size()-1,listOrderInsert);
+
+
+        for(Node node: listOrderInsert){
+            this.insert(node);
+        }
+    }
+
+    protected ArrayList<Node> getReferences(){
+        return this.references;
+    };
+
+    protected abstract void add(Node node, Node newNode);
+    protected abstract void initTree();
+
 }

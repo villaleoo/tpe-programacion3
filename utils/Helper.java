@@ -1,6 +1,6 @@
 package tpe.utils;
 
-import tpe.schemes.SimpleNode;
+import tpe.schemes.Node;
 import tpe.schemes.Task;
 
 import java.util.ArrayList;
@@ -18,17 +18,43 @@ public class Helper {
         return -1;
     }
 
-    public ArrayList<SimpleNode> parseToNodeTaskId(ArrayList<Task> tasks){
-        ArrayList<SimpleNode> result=new ArrayList<>();
+    public ArrayList<Node> parseTaskToNodeId(ArrayList<Task> tasks){
+        ArrayList<Node> result=new ArrayList<>();
         int index=0;
 
         for(Task t : tasks){
-           SimpleNode node = new SimpleNode(this.intTaskId(t.getId_tarea()),index);
+           Node node = new Node(this.intTaskId(t.getId_tarea()));
+           node.addRef(index);
            result.add(node);
            index++;
         }
 
         return result;
+    }
+
+    public ArrayList<Node> parseTaskToNodePriority(ArrayList<Task> tasks){
+        ArrayList<Node> result = new ArrayList<>();
+        int priority=-1;
+        int index=0;
+        Node tmp;
+
+        for(Task t : tasks){
+
+            if(priority != t.getNivel_prioridad()){
+                tmp = new Node(t.getNivel_prioridad());
+                tmp.addRef(index);
+                result.add(tmp);
+
+            }else{
+                tmp= result.getLast();
+                tmp.addRef(index);
+            }
+            priority=t.getNivel_prioridad();
+            index++;
+        }
+
+        return result;
+
     }
 
 

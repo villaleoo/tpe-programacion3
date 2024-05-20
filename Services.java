@@ -4,6 +4,9 @@ import tpe.controllers.TaskController;
 import tpe.schemes.Task;
 import tpe.utils.CSVReader;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * NO modificar la interfaz de esta clase ni sus métodos públicos.
  * Sólo se podrá adaptar el nombre de la clase "Tarea" según sus decisiones
@@ -44,7 +47,14 @@ public class Services {
     /*
      * Expresar la complejidad temporal del servicio 3.
      */
-   // public List<Task> servicio3(int prioridadInferior, int prioridadSuperior) {}
+   public List<Task> servicio3(int prioridadInferior, int prioridadSuperior) {
+       ArrayList<Task> tasks = this.taskController.findByPriorities(prioridadInferior,prioridadSuperior);
+
+       if(tasks == null){
+           System.out.println("No se encontraron tareas con niveles de prioridad entre "+prioridadInferior+" y "+prioridadSuperior+".");
+       }
+       return tasks;
+    }
 
 
         ///si la lista de referencia del arbol no es estatica, cada vez que instancio un arbol tengo que andar copiando la lista de tareas, siempre, todas las veces;

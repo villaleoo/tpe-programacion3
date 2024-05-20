@@ -1,50 +1,51 @@
 package tpe.filters;
 
 import tpe.schemes.Node;
-import tpe.schemes.SimpleNode;
 import tpe.schemes.Task;
 import tpe.schemes.TreeTask;
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class SearchTaskId extends TreeTask {
-    private ArrayList<Task> refListOrder;
-    private ArrayList<SimpleNode> references;
 
     public SearchTaskId(){
         super();
-        this.refListOrder=this.getCopyRefList();
-        Collections.sort(refListOrder);
-        this.references = this.helper.parseToNodeTaskId(this.refListOrder);
-        this.insertRefsInBalancedOrder();
+        this.initTree();
     }
 
     @Override
-    protected void insertRefsInBalancedOrder() {
-        ArrayList<SimpleNode> listOrderInsert =new ArrayList<>();
-        getInsertionOrder(0,this.references.size()-1,listOrderInsert);
+    protected void initTree() {
+        //obtiene una copia de la lista de referencia
+        this.refListInOrder=this.getCopyRefList();
 
-        for(SimpleNode node: listOrderInsert){
-            this.insert(node);
-        }
+        //ordena la copia acorde a los ID
+        Collections.sort(refListInOrder);
+
+        //crea los nodos acorde a las referencias por id
+        this.references = this.helper.parseTaskToNodeId(this.refListInOrder);
+
+        //inserta cada nodo en el arbol balanceadamente acorde a la lista de referencias
+        this.insertRefsInBalancedOrder();
     }
 
     @Override
     protected void add(Node node, Node newNode) {
         Node tmp;
 
-        if(node.getID() > newNode.getID()){
+        if(node.getId() > newNode.getId()){
             if(node.getLeft() == null){
-                tmp= new SimpleNode(newNode.getID(), (int) newNode.getValue());
+                tmp= new Node(newNode.getId());
+                tmp.addRef(newNode.getRefs().getFirst());
                 node.setLeft(tmp);
 
             }else{
                 this.add(node.getLeft(),newNode);
             }
 
-        } else if (node.getID() < newNode.getID()) {
+        } else if (node.getId() < newNode.getId()) {
             if(node.getRight() == null){
-                tmp=new SimpleNode(newNode.getID(),(int) newNode.getValue());
+                tmp=new Node (newNode.getId());
+                tmp.addRef(newNode.getRefs().getFirst());
                 node.setRight(tmp);
 
             }else{
@@ -69,11 +70,13 @@ public class SearchTaskId extends TreeTask {
             return null;
 
         }else{
-            if(node.getID() == idSearch){
+            if(node.getId() == idSearch){
+                Node tmp = new Node(node.getId());
+                tmp.addRef(node.getRefs().getFirst());
 
-                return new SimpleNode(node.getID(),(int) node.getValue());
+                return tmp;
 
-            } else if (node.getID() > idSearch) {
+            } else if (node.getId() > idSearch) {
 
                 return getById(node.getLeft(),idSearch);
 
@@ -84,24 +87,9 @@ public class SearchTaskId extends TreeTask {
         }
     }
 
-    private void getInsertionOrder(int i, int f, ArrayList<SimpleNode> tmp){
-        int middle;
-
-        if (f-i == 0) {
-            tmp.add(this.references.get(i));
-
-        }else if (i < f){
-            middle=(i+f)/2;
-            tmp.add(this.references.get(middle));
-
-            getInsertionOrder(i,middle-1,tmp);
-            getInsertionOrder(middle+1,f,tmp);
-        }
-    }
-
     private Task parseToTask(Node node){
-        int index= (int) node.getValue();
-        Task result= this.refListOrder.get( index );
+        int index= node.getRefs().getFirst();
+        Task result= this.refListInOrder.get( index );
 
         return new Task(result.getId_tarea(),result.getNombre_tarea(),result.getTiempo_ejecucion(), result.isEsCritica(), result.getNivel_prioridad());
     }
