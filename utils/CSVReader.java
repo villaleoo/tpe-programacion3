@@ -1,5 +1,6 @@
 package tpe.utils;
 
+import tpe.filters.SearchByCritic;
 import tpe.schemes.Task;
 import tpe.schemes.TreeTask;
 
@@ -11,19 +12,16 @@ import java.util.ArrayList;
 
 
 public class CSVReader {
-    private ArrayList<Task> tareas;
+    private ArrayList<Task> tasks;
 
 
-    ////podria aplicar un patron singleton para el reader
+
     public CSVReader() {
-        this.tareas=new ArrayList<>();
+        this.tasks=new ArrayList<>();
     }
 
 
 
-    public ArrayList<Task> getTasks(){
-        return new ArrayList<>(this.tareas);
-    }
 
     public void readTasks(String taskPath) {
 
@@ -40,14 +38,23 @@ public class CSVReader {
             Boolean critica = Boolean.parseBoolean(line[3].trim());
             Integer prioridad = Integer.parseInt(line[4].trim());
             // Aca instanciar lo que necesiten en base a los datos leidos
-            Task nuevaTarea= new Task(id,nombre,tiempo,critica,prioridad);
-            this.tareas.add(nuevaTarea);
+
+            Task newTask= new Task(id,nombre,tiempo,critica,prioridad);
+
+            this.tasks.add(newTask);
+
+            this.addTaskHashing(newTask);
         }
-        TreeTask.setRefList(tareas);
-        ///cuando ejecuto el metodo de leer tareas, actualizo la lista de referencia de los arboles de busqueda ordenados. La lista del arbol es estatica para
-        ///que sea siempre la misma y no se pierda al instanciar un nuevo arbol
 
+        TreeTask.setRefList(this.tasks);
+    }
 
+    private void addTaskHashing(Task t){
+        if(t.isEsCritica()){
+            SearchByCritic.addCriticTask(t);
+        }else{
+            SearchByCritic.addNotCriticTask(t);
+        }
     }
 
     public void readProcessors(String processorPath) {
