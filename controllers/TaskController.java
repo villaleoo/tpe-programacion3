@@ -1,7 +1,6 @@
 package tpe.controllers;
 
 import tpe.filters.SearchGroupPriority;
-import tpe.filters.SearchTaskId;
 import tpe.schemes.Task;
 import tpe.utils.Helper;
 
@@ -18,12 +17,7 @@ public class TaskController {
 
 
     public Task findTask(String id){
-        SearchTaskId treeID = new SearchTaskId();
-        int index = this.helper.intTaskId(id);
 
-        if(index >= 0){
-            return treeID.getTask(index);
-        }
         return null;
     }
 

@@ -7,7 +7,7 @@ import java.util.HashMap;
 public class SearchByCritic {
     private static HashMap<String, Task> criticTasks;
     private static HashMap<String, Task> notCriticTasks;
-
+    //reemplazar por listas. no utilizar hashmap
     public static void addCriticTask(Task t){
         if(criticTasks == null){
             criticTasks=new HashMap<>();

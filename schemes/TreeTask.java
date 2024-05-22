@@ -8,19 +8,18 @@ import java.util.ArrayList;
 
 //EL CSVReader le manda la lista de tareas EN ORDEN DE COMO LAS LEE (refList)
 //LA CLASE PADRE/ABSTRACTA OBTIENE LA refList --> ESTATICA para que sea para todos la misma lista
+//esta hecho con clase abstracta para posibilidad de agregar mas arboles de busqueda con otros campos de ordenamiento
 
 //CADA CLASE HIJA DE TreeTask:
 //1) se encarga de ordenar la refList (refListInOrder)--> paso que podria omitirse y solo trabajar con refList. Lo inclui para servicio de traer todas las tareas ordenadas por...
 //2) se encarga de convertir la refListOrder en una nueva lista de referencias de tipo <Node> (references).
-//Cada elemento de esta lista (references) almacena el ID (atributo ordenador del arbol (id_tarea o prioridad) ) y Values (index's de la lista refListOrder de la/las tareas con ese ID).
+//Cada elemento de esta lista (references) almacena el ID (prioridad) ) y Values (index's de la lista refListOrder de la/las tareas con esa prioridad).
 //3)luego de armar la lista references, busca EL ORDEN EN EL QUE SE DEBEN ALMACENAR EN EL ARBOL las referencias (metodo getInsertionOrder)
 //4) al encontrar y guardar el orden de agregación, se invoca al metodo add (agregar al arbol) por cada elemento (metodo insertRefsInBalancedOrder)
 //5) los pasos anteriores se ejecutan al instanciar un arbol, dado que son esenciales para el funcionamiento correcto del arbol (metodo initTree) .
-//6) al ejecutar un metodo del arbol (por ejemplo obtener tareas con id 5):
-//          a) busca en el arbol ordenado (operacion log n), hasta encontrar --> nodo ID=5.Lo que contenga ese nodo en su Values sera la posicion de la tarea con ID=5 en
-//             la refListInOrder.
-//          b) al encontrar el nodo ID=5, otra funcion busca la tarea en refListInOrder acorde al valor del nodo en su Value.
-//          c) retorna la tarea encontrada con ID_TAREA=5 y posicion en refListInOrder --> refListInOrder.get(nodo.getValue().getFirst()).
+
+
+
 
 public abstract class TreeTask {
     protected static ArrayList<Task> refList;

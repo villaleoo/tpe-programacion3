@@ -42,9 +42,13 @@ public class Services {
     /*
      * Expresar la complejidad temporal del servicio 2.
      */
-    //public List<Tarea> servicio2(boolean esCritica) {}
+    //public List<Tarea> servicio2(boolean esCritica) {
+    //
+    // return tasks
+    // }
 
     /*
+
      * Expresar la complejidad temporal del servicio 3.
      */
    public List<Task> servicio3(int prioridadInferior, int prioridadSuperior) {
