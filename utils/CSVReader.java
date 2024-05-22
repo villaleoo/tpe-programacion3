@@ -43,19 +43,12 @@ public class CSVReader {
 
             this.tasks.add(newTask);
 
-            this.addTaskHashing(newTask);
         }
 
-        TreeTask.setRefList(this.tasks);
+        TreeTask.setRefList(this.tasks);  //le envia las tareas al arbol binario del servicio3
     }
 
-    private void addTaskHashing(Task t){
-        if(t.isEsCritica()){
-            SearchByCritic.addCriticTask(t);
-        }else{
-            SearchByCritic.addNotCriticTask(t);
-        }
-    }
+
 
     public void readProcessors(String processorPath) {
 
