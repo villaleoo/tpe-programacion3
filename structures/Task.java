@@ -1,4 +1,4 @@
-package tpe.schemes;
+package tpe.structures;
 
 public class Task implements Comparable<Task>{
     private String id_tarea;

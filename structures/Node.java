@@ -1,4 +1,4 @@
-package tpe.schemes;
+package tpe.structures;
 
 import java.util.ArrayList;
 

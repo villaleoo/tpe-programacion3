@@ -1,6 +1,6 @@
 package tpe.filters;
 
-import tpe.schemes.*;
+import tpe.structures.*;
 
 import java.util.ArrayList;
 import java.util.Comparator;

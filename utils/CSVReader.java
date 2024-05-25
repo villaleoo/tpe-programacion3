@@ -1,8 +1,10 @@
 package tpe.utils;
 
 import tpe.filters.SearchByCritic;
-import tpe.schemes.Task;
-import tpe.schemes.TreeTask;
+import tpe.filters.SearchById;
+import tpe.filters.SearchGroupPriority;
+import tpe.structures.Task;
+import tpe.structures.TreeTask;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -15,12 +17,10 @@ public class CSVReader {
     private ArrayList<Task> tasks;
 
 
-
     public CSVReader() {
-        this.tasks=new ArrayList<>();
+        this.tasks = new ArrayList<>();
+
     }
-
-
 
 
     public void readTasks(String taskPath) {
@@ -30,7 +30,7 @@ public class CSVReader {
         // lines.get(1) tiene la segunda linea del archivo... y así
         ArrayList<String[]> lines = this.readContent(taskPath);
 
-        for (String[] line: lines) {
+        for (String[] line : lines) {
             // Cada linea es un arreglo de Strings, donde cada posicion guarda un elemento
             String id = line[0].trim();
             String nombre = line[1].trim();
@@ -39,15 +39,16 @@ public class CSVReader {
             Integer prioridad = Integer.parseInt(line[4].trim());
             // Aca instanciar lo que necesiten en base a los datos leidos
 
-            Task newTask= new Task(id,nombre,tiempo,critica,prioridad);
-
+            Task newTask = new Task(id, nombre, tiempo, critica, prioridad);
+            SearchById.addTask(newTask, id);
             this.tasks.add(newTask);
-
+            if (critica)
+                SearchByCritic.addCriticTask(newTask);
+            else SearchByCritic.addNotCriticTask(newTask);
         }
 
         TreeTask.setRefList(this.tasks);  //le envia las tareas al arbol binario del servicio3
     }
-
 
 
     public void readProcessors(String processorPath) {
@@ -57,7 +58,7 @@ public class CSVReader {
         // lines.get(1) tiene la segunda linea del archivo... y así
         ArrayList<String[]> lines = this.readContent(processorPath);
 
-        for (String[] line: lines) {
+        for (String[] line : lines) {
             // Cada linea es un arreglo de Strings, donde cada posicion guarda un elemento
             String id = line[0].trim();
             String codigo = line[1].trim();

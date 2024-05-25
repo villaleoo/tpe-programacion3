@@ -1,4 +1,4 @@
-package tpe.schemes;
+package tpe.structures;
 
 import tpe.utils.Helper;
 

@@ -1,29 +1,29 @@
 package tpe.filters;
 
-import tpe.schemes.Task;
+import tpe.structures.Task;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public class SearchByCritic {
-    private static HashMap<String, Task> criticTasks;
-    private static HashMap<String, Task> notCriticTasks;
-    //reemplazar por listas. no utilizar hashmap
+    private static final ArrayList<Task> criticTasks = new ArrayList<Task>();
+    private static final ArrayList<Task> notCriticTasks = new ArrayList<Task>();
+
     public static void addCriticTask(Task t){
-        if(criticTasks == null){
-            criticTasks=new HashMap<>();
-        }
-        if(t.isEsCritica()){
-            criticTasks.put(t.getId_tarea(),t);
-        }
+        if (!criticTasks.contains(t))
+            criticTasks.add(t);
     }
 
     public static void addNotCriticTask(Task t){
-        if(notCriticTasks == null){
-            notCriticTasks=new HashMap<>();
-        }
-        if(!t.isEsCritica()){
-            notCriticTasks.put(t.getId_tarea(),t);
-        }
+        if (!notCriticTasks.contains(t))
+            notCriticTasks.add(t);
     }
-    //faltaria crear la funcion para obtener la lista de tareas que se van a buscar en uno de los 2 hashMap
+
+
+    public static ArrayList<Task> getCriticTasks() {
+        return criticTasks;
+    }
+
+    public static ArrayList<Task> getNotCriticTasks() {
+        return notCriticTasks;
+    }
 }

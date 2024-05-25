@@ -1,7 +1,7 @@
 package tpe.utils;
 
-import tpe.schemes.Node;
-import tpe.schemes.Task;
+import tpe.structures.Node;
+import tpe.structures.Task;
 
 import java.util.ArrayList;
 
