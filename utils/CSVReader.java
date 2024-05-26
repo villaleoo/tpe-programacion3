@@ -3,6 +3,7 @@ package tpe.utils;
 import tpe.filters.SearchByCritic;
 import tpe.filters.SearchById;
 import tpe.filters.SearchGroupPriority;
+import tpe.structures.Processor;
 import tpe.structures.Task;
 import tpe.structures.TreeTask;
 
@@ -14,12 +15,12 @@ import java.util.ArrayList;
 
 
 public class CSVReader {
-    private ArrayList<Task> tasks;
-
+    private final ArrayList<Task> tasks;
+    private final ArrayList<Processor> processors;
 
     public CSVReader() {
         this.tasks = new ArrayList<>();
-
+        this.processors = new ArrayList<>();
     }
 
 
@@ -65,8 +66,18 @@ public class CSVReader {
             Boolean refrigerado = Boolean.parseBoolean(line[2].trim());
             Integer anio = Integer.parseInt(line[3].trim());
             // Aca instanciar lo que necesiten en base a los datos leidos
+            Processor p = new Processor(id, codigo, refrigerado, anio);
+            this.processors.add(p);
         }
 
+    }
+
+    public ArrayList<Task> getTasks() {
+        return this.tasks;
+    }
+
+    public ArrayList<Processor> getProcessors() {
+        return this.processors;
     }
 
     private ArrayList<String[]> readContent(String path) {
