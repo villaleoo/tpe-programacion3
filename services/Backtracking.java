@@ -53,9 +53,24 @@ public class Backtracking {
         System.out.println("Cantidad de pasos generados: " + this.totalSteps);
     }
 
+    /**
+     * Este algoritmo busca exhaustivamente todas las posibles combinaciones de
+     * asignaciones de tareas a procesadores, y selecciona la que minimiza el tiempo
+     * total de ejecución. Para esto se utiliza un Hash para asignar las tareas a los procesadores
+     * En cada paso de backtracking se evalúa si la solución encontrada minimiza el tiempo de ejecución
+     * total de las tareas (isBestSolution).
+     * Para la exploración de todas las posibles soluciones, se utiliza un for para recorrer
+     * todos los procesadores en donde se pueda asignar la tarea actual. La asignación solo
+     * es posible si cumple con las restricciones expresadas en el enunciado (canAssignTask)
+     * @param actualSol Solución actual en cada paso.
+     * @param currentTaskPos Posición actual de la tarea a asignar
+     * @param x Parámetro enviado por el usuario para los procesadores no refrigerados
+     */
     private void getAssignmentsBacktracking(HashMap<String, ArrayList<Task>> actualSol, int currentTaskPos, float x) {
         if (currentTaskPos == tasks.size()) {
             if (isBestSolution(actualSol)) {
+                // Copia profunda de un hashmap, para evitar que siga teniendo referencias
+                // al actualSol
                 this.taskAssignments = this.deepCopy(actualSol);
                 this.minTime = this.processorExecutionTime(this.taskAssignments);
             }
@@ -86,6 +101,9 @@ public class Backtracking {
                         HashMap::new));
     }
 
+    /**
+     * El tiempo de ejecución se define como el máximo tiempo de ejecución de un procesador.
+     */
     private Float processorExecutionTime(HashMap<String, ArrayList<Task>> taskAssignments) {
         float maxTime = Float.MIN_VALUE;
         for (String key : taskAssignments.keySet()) {
