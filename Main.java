@@ -2,6 +2,7 @@ package tpe;
 
 
 import tpe.services.Backtracking;
+import tpe.services.Greedy;
 import tpe.services.Services;
 import tpe.structures.Task;
 
@@ -11,6 +12,11 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
+
+        Greedy g = new Greedy("./src/tpe/datasets/Procesadores.csv", "./src/tpe/datasets/Tareas.csv");
+        g.printAssigment((float)99);
+
+        /*
         Services services = new Services("datasets/Procesadores.csv", "datasets/Tareas.csv");
         Backtracking backtracking = new Backtracking("datasets/Procesadores.csv", "datasets/Tareas.csv");
         Scanner scanner = new Scanner(System.in);
@@ -49,5 +55,8 @@ public class Main {
         System.out.print("Por favor, ingrese el valor X para minimizar el tiempo de ejecución: ");
         float x = scanner.nextFloat();
         backtracking.getAssignments(x);
+        */
+
+
     }
 }
