@@ -67,21 +67,21 @@ public class Greedy {
 
             }
         };
+
         tasks.sort(compPriorityAndEjecTime);
-
-
     }
 
     //funcion que imprime en pantalla la solucion del servicio
     public void printAssigment(Float x){
+
         this.getAssigment(x);
-        System.out.println("\n\tEl procesador con mayor tiempo de ejecucion es: id_procesador = "+this.getProccTimeBig()+";");
-        System.out.println("\tTIEMPO TOTAL DE EJECUCION : "+this.getTotalTimeEjec()+";");
+
+        ArrayList<String> dataProccBigTime= this.getDataProccBigTime();
+        System.out.println("\n\tEl procesador con mayor tiempo de ejecucion es: id_procesador = "+dataProccBigTime.getFirst()+";");
+        System.out.println("\tTIEMPO TOTAL DE EJECUCION : "+dataProccBigTime.getLast()+";");
         System.out.println("\tTOTAL DE TAREAS (candidatos) ASIGNADAS A PROCESADORES: "+this.qTask+";");
         System.out.println("\nLista de asignacion de tareas a procesadores:\n");
         System.out.println(this.solution);
-
-
 
     }
 
@@ -144,7 +144,6 @@ public class Greedy {
         return q;
     }
 
-
     //Esta funcion primero busca los procesadores que son candidatos a poder asignarle las tareas y los agrega a la lista de posibles
     //Cuando obtiene la lista de los que son adecuados para la tarea, se la pasa a otra funcion que busca y
     //obtiene el procesador con el tiempo minimo de ejecucion al momento, con el fin de achicar el tiempo maximo de ejecucion
@@ -160,12 +159,9 @@ public class Greedy {
 
         pMin= this.getProcMinTimeEjec(possibles);
 
-
-
         return pMin;
 
     }
-
 
     //entre los procesadores que cumplen los requisitos para asignarle la tarea,
     //retorna el procesador que se encuentra vacio Ó el que tiene menor tiempo de ejecucion al momento
@@ -196,7 +192,9 @@ public class Greedy {
         return acc;
     }
 
-    private float getTotalTimeEjec(){
+
+    private ArrayList<String> getDataProccBigTime (){
+        ArrayList<String> dataProcc = new ArrayList<>();
         float total=0;
         float tmp;
 
@@ -207,27 +205,13 @@ public class Greedy {
             }
             if(tmp > total){
                 total=tmp;
+                dataProcc.clear();
+                dataProcc.add(assig.getKey());
+                dataProcc.add(String.valueOf(total));
             }
         }
-        return total;
-    }
 
-    private String getProccTimeBig(){
-        float total=0;
-        float tmp;
-        String proccId="";
-        for(Map.Entry<String, ArrayList<Task>> assig: this.solution.entrySet()){
-            tmp=0;
-            for(Task t : assig.getValue()){
-                tmp= tmp+t.getTiempo_ejecucion();
-            }
-            if(tmp > total){
-                total=tmp;
-                proccId="";
-                proccId= assig.getKey();
-            }
-        }
-        return proccId;
+        return dataProcc;
     }
 
 
