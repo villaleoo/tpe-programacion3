@@ -76,30 +76,10 @@ public class Greedy {
 
     //funcion que imprime en pantalla la solucion del servicio
     public void printAssigment(Float x){
-
         this.getAssigment(x);
         ArrayList<String> dataProccBigTime= this.getDataProccBigExecTime();
 
-        if(!this.isOptimalSolution()){
-            //puede no ser solucion optima si hay procesadores vacios ó quedaron tareas en cola
-            System.out.println("\t\t\t❗❗❗❗❗❗❗ Error ❗❗❗❗❗❗❗\t\t\t");
-            if(this.isAreEmptyProccesors() && !this.taskQueue.isEmpty()){
-                System.out.println("❌ Con estas restricciones hay procesadores que quedaron sin tareas asignadas y tambien quedaron tareas en cola.");
-
-            }else{
-                if(this.isAreEmptyProccesors()){
-                    System.out.println("🟡 Aunque se asignaron todas las tareas, con estas restricciones hay procesadores sin tareas asignadas.");
-                }
-                if(!this.taskQueue.isEmpty()){
-                    System.out.println("❗ Hay tareas que con estas restricciones no pueden ser asignadas. Quedaron "+this.taskQueue.size()+" tareas en cola.");
-                }
-            }
-
-            System.out.println("Solucion parcial obtenida: \n");
-        }else{
-            System.out.println("\t\t\t✅Solucion obtenida exitosamente (todas las tareas asignadas)✅");
-        }
-
+        this.printEstateSolution();
         System.out.println("\n\t📈 El procesador con mayor tiempo de ejecucion es: id_procesador = "+dataProccBigTime.getFirst()+";");
         System.out.println("\t⌚ Tiempo total de ejecucion: "+dataProccBigTime.getLast()+". (sumatoria de tiempo_ejecucion de las tareas en el "+dataProccBigTime.getFirst()+");");
         System.out.println("\t📄 Total de tareas en cola previo a comenzar la asignacion: "+this.qTask+";");
@@ -110,9 +90,31 @@ public class Greedy {
         System.out.println("\n📄 Lista de asignacion:\n");
         System.out.println(this.solution);
 
+    }
 
+    //puede no ser solucion optima si hay procesadores vacios y/o quedaron tareas en cola
+    private void printEstateSolution(){
+        boolean isOptimalSolution = this.isOptimalSolution();
+        if(!isOptimalSolution){
+            boolean isEmptyProccessors = this.isAreEmptyProccesors();
+            boolean isTaskQueueEmpty = this.taskQueue.isEmpty();
 
+            System.out.println("\t\t\t❗❗❗❗❗❗❗ Error ❗❗❗❗❗❗❗\t\t\t");
+            if(isEmptyProccessors && !isTaskQueueEmpty){
+                System.out.println("❌ Con estas restricciones hay procesadores que quedaron sin tareas asignadas y tambien quedaron tareas en cola.");
 
+            }else{
+                if(isEmptyProccessors){
+                    System.out.println("🟡 Aunque se asignaron todas las tareas, con estas restricciones hay procesadores sin tareas asignadas.");
+                }
+                if(!isTaskQueueEmpty){
+                    System.out.println("❗ Hay tareas que con estas restricciones no pueden ser asignadas. Quedaron "+this.taskQueue.size()+" tareas en cola.");
+                }
+            }
+            System.out.println("Solucion parcial obtenida: \n");
+        }else{
+            System.out.println("\t\t\t✅Solucion obtenida exitosamente (todas las tareas asignadas)✅");
+        }
     }
 
     //primero agrega todos los procesadres a la solucion, dado que todos los procesadores deben hacer al menos una tarea.

@@ -14,7 +14,7 @@ public class Main {
     public static void main(String[] args) {
 
         Greedy g = new Greedy("./src/tpe/datasets/Procesadores.csv", "./src/tpe/datasets/Tareas.csv");
-        g.printAssigment((float)9);
+        g.printAssigment((float)900);
 
         /*
         Services services = new Services("datasets/Procesadores.csv", "datasets/Tareas.csv");
