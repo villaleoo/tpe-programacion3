@@ -78,17 +78,15 @@ public class Greedy {
             this.getAssigment(x);
 
         }catch(Exception e){
-
-        }
-        ArrayList<String> dataProccBigTime= this.getDataProccBigExecTime();
-        if(!this.taskQueue.isEmpty()){
+            //cae en error si betterProcc retorna null a la funcion getAssigment
             System.out.println("\t\t\t❗❗❗❗❗❗❗ Error ❗❗❗❗❗❗❗\t\t\t");
             System.out.println("Hay tareas que con estas restricciones no pueden ser asignadas. Quedaron "+this.taskQueue.size()+" tareas en cola.");
             System.out.println("Solucion parcial obtenida: \n");
-        }else{
+        }
+        ArrayList<String> dataProccBigTime= this.getDataProccBigExecTime();
+        if(this.taskQueue.isEmpty()){
             System.out.println("\t\t\t✅Solucion obtenida exitosamente (todas las tareas asignadas)✅");
         }
-
         System.out.println("\n\t📈 El procesador con mayor tiempo de ejecucion es: id_procesador = "+dataProccBigTime.getFirst()+";");
         System.out.println("\t⌚ Tiempo total de ejecucion: "+dataProccBigTime.getLast()+";");
         System.out.println("\t📊 Total de tareas (candidatos) asignadas a procesadores: "+this.qTask+";");
@@ -186,6 +184,7 @@ public class Greedy {
                 return p;
             }else{
                 if(this.getTimeExectTaskList(this.solution.get(p.getIdProc())) < accTimeEjec){
+                    accTimeEjec= this.getTimeExectTaskList(this.solution.get(p.getIdProc()));
                     pMin=p;
                 }
             }
