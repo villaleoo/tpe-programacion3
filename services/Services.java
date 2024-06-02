@@ -27,7 +27,7 @@ public class Services {
         reader.readTasks(pathTareas);
         this.taskController = new TaskController();
 
-        //cuando se instancia un CSVReader, el CSVReader guarda las tareas en una lista de referencia para los arboles de busqueda Ó los guarda en los mismos arboles a los datos
+
     }
 
     /*
@@ -58,6 +58,7 @@ public class Services {
 
     /*
      * Expresar la complejidad temporal del servicio 3.
+     * La complejidad temporal es Log (n). En el peor de los casos accedera a todo el arbol, cuando se ingresen valores que incluyen todas las tareas
      */
     public List<Task> servicio3(int prioridadInferior, int prioridadSuperior) {
         ArrayList<Task> tasks = this.taskController.findByPriorities(prioridadInferior, prioridadSuperior);
@@ -68,7 +69,5 @@ public class Services {
         return tasks;
     }
 
-
-    ///si la lista de referencia del arbol no es estatica, cada vez que instancio un arbol tengo que andar copiando la lista de tareas, siempre, todas las veces;
 
 }

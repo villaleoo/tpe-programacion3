@@ -12,7 +12,7 @@ import java.util.*;
 //2) se creo una funcion printAssigment para mostrar la solucion obtenida y las metricas.
 //3) se creo la funcion getAssigment que seria la funcion de estructura general/clasica de greedy:
     //se tiene un conjunto de solucion inicialmente vacio (solo con los procesadores cargados, sin tareas asignadas)
-    //se itera la cola de tareas (candidatos) hasta llegar a estar vacia. En esta iteracion se determina si es factible asignar un procesador a la primer tarea de la cola
+    //se itera la cola de tareas (candidatos) hasta llegar a estar vacia. En esta iteracion se busca el procesador que minimiza el tiempo de ejecucion total para asignarle la primer tarea de la cola
     //la cola de tareas va disminuyendo a medida que el algoritmo va encontrando procesadores adecuados para esa tarea (funcion betterProcc)
 
 //4)la funcion betterProcc recibe una tarea (la primera de la cola) de getAssigment e itera los procesadores buscando los adecuados para asignarle esa tarea (funcion greedyIsFact).
@@ -25,7 +25,7 @@ import java.util.*;
 //5) una vez que se determina el mejor procesador para la primer tarea de la cola siguiendo los pasos del punto (4), getAssigment consigue el mejor procesador para
 //la primer tarea en la cola, por lo que asigna la tarea al procesador en la estructura de solucion (HashMap solution) y elimina la tarea de la cola.
 
-//SE LLEGA A LA SOLUCION UNA VEZ QUE LA COLA DE TAREAS ESTA VACIA. SE ITERA ADA TAREA, BUSCANDO EL PROCESADOR ADECUADO QUE MINIMIZA EL TIEMPO DE EJECUCION
+//SE LLEGA A LA SOLUCION UNA VEZ QUE LA COLA DE TAREAS ESTA VACIA. SE ITERA CADA TAREA, BUSCANDO EL PROCESADOR ADECUADO QUE MINIMIZA EL TIEMPO DE EJECUCION
 //getAssigment -> itera cada tarea para asignarle el procesador que minimiza el tiempo de ejecucion total.
 //betterProcc -> itera cada procesador para encontrar el conjunto de procesadores que se les puede asignar la tarea.
 //greedyIsFact -> la utiliza betterProcc para determinar cual procesador es apto para la tarea y cual no es apto.
