@@ -78,18 +78,28 @@ public class Greedy {
             this.getAssigment(x);
 
         }catch(Exception e){
-            System.out.println("Hay tareas que con estas restricciones no pueden ser asignadas. Quedaron "+this.taskQueue.size()+" en cola.");
-            System.out.println("Solucion maxima a la que se llego:\n");
+
+        }
+        ArrayList<String> dataProccBigTime= this.getDataProccBigExecTime();
+        if(!this.taskQueue.isEmpty()){
+            System.out.println("\t\t\t❗❗❗❗❗❗❗ Error ❗❗❗❗❗❗❗\t\t\t");
+            System.out.println("Hay tareas que con estas restricciones no pueden ser asignadas. Quedaron "+this.taskQueue.size()+" tareas en cola.");
+            System.out.println("Solucion parcial obtenida: \n");
+        }else{
+            System.out.println("\t\t\t✅Solucion obtenida exitosamente (todas las tareas asignadas)✅");
         }
 
-
-        ArrayList<String> dataProccBigTime= this.getDataProccBigExecTime();
-
-        System.out.println("\n\tEl procesador con mayor tiempo de ejecucion es: id_procesador = "+dataProccBigTime.getFirst()+";");
-        System.out.println("\tTIEMPO TOTAL DE EJECUCION : "+dataProccBigTime.getLast()+";");
-        System.out.println("\tTOTAL DE TAREAS (candidatos) ASIGNADAS A PROCESADORES: "+this.qTask+";");
-        System.out.println("\nLista de asignacion de tareas a procesadores:\n");
+        System.out.println("\n\t📈 El procesador con mayor tiempo de ejecucion es: id_procesador = "+dataProccBigTime.getFirst()+";");
+        System.out.println("\t⌚ Tiempo total de ejecucion: "+dataProccBigTime.getLast()+";");
+        System.out.println("\t📊 Total de tareas (candidatos) asignadas a procesadores: "+this.qTask+";");
+        if(!this.taskQueue.isEmpty()){
+            System.out.println("\t❌ Tareas que quedaron en cola (sin asignar): "+this.taskQueue.size()+";");
+        }
+        System.out.println("\n📄 Lista de asignacion:\n");
         System.out.println(this.solution);
+
+
+
 
     }
 
