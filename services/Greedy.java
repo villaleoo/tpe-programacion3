@@ -25,6 +25,7 @@ import java.util.*;
 //la primer tarea en la cola, por lo que asigna la tarea al procesador en la estructura de solucion (HashMap solution) y elimina la tarea de la cola.
 
 //SE LLEGA A LA SOLUCION UNA VEZ QUE LA COLA DE TAREAS ESTA VACIA. SE ITERA CADA TAREA, BUSCANDO EL PROCESADOR ADECUADO QUE MINIMIZA EL TIEMPO DE EJECUCION
+//printAssigment -> llama a la funcion que asigna tareas getAssigment. Si se hace prueba con lista de tareas que excedan los requisitos muestra error.
 //getAssigment -> itera cada tarea para asignarle el procesador que minimiza el tiempo de ejecucion total.
 //getBetterProccesor -> itera cada procesador para encontrar el conjunto de procesadores que se les puede asignar la tarea.
 //isFactible -> la utiliza getBetterProccesor para determinar cual procesador es apto para la tarea y cual no es apto.
