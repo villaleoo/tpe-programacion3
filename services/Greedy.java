@@ -6,32 +6,35 @@ import tpe.utils.CSVReader;
 
 import java.util.*;
 
-//para resolver el problema por greedy se elaboraron los siguientes pasos:
-//1) se armo una cola de tareas ordenadas por tiempo de ejecucion (tareas con mayor tiempo de ejecucion primero).
-//2) se creo una funcion printAssigment para mostrar la solucion obtenida y las metricas.
-//3) se creo la funcion getAssigment que seria la funcion de estructura general/clasica de greedy:
+
+//Se creo la funcion getAssigment que seria la funcion de estructura general/clasica de greedy:
     //se tiene un conjunto de solucion inicialmente vacio (solo con los procesadores cargados, sin tareas asignadas)
     //se itera la cola de tareas (candidatos) hasta llegar a estar vacia. En esta iteracion se busca el procesador que minimiza el tiempo de ejecucion total para asignarle la primer tarea de la cola
     //la cola de tareas va disminuyendo a medida que el algoritmo va encontrando procesadores adecuados para esa tarea (funcion getBetterProccesor)
 
-//4)la funcion getBetterProccesor recibe una tarea (la primera de la cola) de getAssigment e itera los procesadores buscando los adecuados para asignarle esa tarea (funcion isFactible).
+//La funcion getBetterProccesor recibe una tarea (la primera de la cola) de getAssigment e itera los procesadores buscando los adecuados para asignarle esa tarea (funcion isFactible).
     //para determinar si un procesador es adecuado para una tarea, se creo la funcion isFactible ---> de acuerdo a una tarea y un procesador, determina si
     //el procesador cumple con los requisitos para asignarle esa tarea.
     //getBetterProccesor a medida que va encontrando procesadores aptos, los va agregando a una lista de procesadores posibles
     //cuando termina de obtener la lista de los procesadores posibles, se los envia a la funcion getProccShortExectTime para obtener, entre los posibles procesadores,
     //el procesador que no tiene ninguna tarea asignada (seria el mejor para minimizar tiempos) ó el que menor tiempo de ejecucion tiene al momento de asignar la tarea.
 
-//5) una vez que se determina el mejor procesador para la primer tarea de la cola siguiendo los pasos del punto (4), getAssigment consigue el mejor procesador para
+//Una vez que se determina el mejor procesador para la primer tarea de la cola , getAssigment recibe el mejor procesador para
 //la primer tarea en la cola, por lo que asigna la tarea al procesador en la estructura de solucion (HashMap solution) y elimina la tarea de la cola.
 
-//SE LLEGA A LA SOLUCION UNA VEZ QUE LA COLA DE TAREAS ESTA VACIA. SE ITERA CADA TAREA, BUSCANDO EL PROCESADOR ADECUADO QUE MINIMIZA EL TIEMPO DE EJECUCION
+//SE LLEGA A LA SOLUCION UNA VEZ QUE LA COLA DE TAREAS ESTA VACIA. SE ITERA CADA TAREA, BUSCANDO EL PROCESADOR ADECUADO QUE MINIMIZA EL TIEMPO DE EJECUCION.
+//EL TIEMPO DE EJECUCION DE UN PROCESADOR ES LA SUMATORIA DEL TIEMPO DE EJECUCION DE LAS TAREAS QUE TIENE ASIGNADO.
+
 //printAssigment -> llama a la funcion que asigna tareas getAssigment. Si se hace prueba con lista de tareas que excedan los requisitos muestra error.
 //getAssigment -> itera cada tarea para asignarle el procesador que minimiza el tiempo de ejecucion total.
 //getBetterProccesor -> itera cada procesador para encontrar el conjunto de procesadores que se les puede asignar la tarea.
 //isFactible -> la utiliza getBetterProccesor para determinar cual procesador es apto para la tarea y cual no es apto.
 //getProccShortExectTime -> la utiliza getBetterProccesor para determinar el procesador que minimiza el tiempo de ejecucion total. Trabaja con procesadores que son adecuados para 1 tarea
+// isOptimalSolution -> determina si la solucion alcanzada es optima. Con funciones auxiliares diferencia si hay procesadores que no se le incluyeron tareas ó si hay tareas
+        //que no se pudieron asignar a ningun procesador.
+        //Lo que influye en que la solucion no sea optima es principalmente el valor del numero X y la cantidad de tareas criticas en cola.
 
-//EL TIEMPO DE EJECUCION DE UN PROCESADOR ES LA SUMATORIA DEL TIEMPO DE EJECUCION DE LAS TAREAS QUE TIENE ASIGNADO.
+
 
 public class Greedy {
     private ArrayList<Processor> proccList;
@@ -77,12 +80,17 @@ public class Greedy {
         this.getAssigment(x);
         ArrayList<String> dataProccBigTime= this.getDataProccBigExecTime();
 
-        if(!this.taskQueue.isEmpty()){
-            //quedan tareas en cola si getBetterProccesor retorna null (no hay procesador adecuado) a la funcion getAssigment
+        if(!this.isOptimalSolution()){
+            //puede no ser solucion optima si hay procesadores vacios ó quedaron tareas en cola
             System.out.println("\t\t\t❗❗❗❗❗❗❗ Error ❗❗❗❗❗❗❗\t\t\t");
-            System.out.println("❗ Hay tareas que con estas restricciones no pueden ser asignadas. Quedaron "+this.taskQueue.size()+" tareas en cola.");
-            System.out.println("Solucion parcial obtenida: \n");
+            if(this.isAreEmptyProccesors()){
+                System.out.println("🟡 Aunque se asignaron todas las tareas, con estas restricciones hay procesadores sin tareas asignadas.");
+            }
+            if(!this.taskQueue.isEmpty()){
+                System.out.println("❗ Hay tareas que con estas restricciones no pueden ser asignadas. Quedaron "+this.taskQueue.size()+" tareas en cola.");
+            }
 
+            System.out.println("Solucion parcial obtenida: \n");
         }else{
             System.out.println("\t\t\t✅Solucion obtenida exitosamente (todas las tareas asignadas)✅");
         }
@@ -242,6 +250,19 @@ public class Greedy {
         }
 
         return dataProcc;
+    }
+
+    private boolean isOptimalSolution(){
+        return !this.isAreEmptyProccesors() && this.taskQueue.isEmpty();
+    }
+
+    private boolean isAreEmptyProccesors(){
+        for(Map.Entry<String, ArrayList<Task>> assig: this.solution.entrySet()){
+            if(assig.getValue().isEmpty()){
+                return true;
+            }
+        }
+        return false;
     }
     
 }
