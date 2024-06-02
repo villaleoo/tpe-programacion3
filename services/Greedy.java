@@ -83,11 +83,16 @@ public class Greedy {
         if(!this.isOptimalSolution()){
             //puede no ser solucion optima si hay procesadores vacios ó quedaron tareas en cola
             System.out.println("\t\t\t❗❗❗❗❗❗❗ Error ❗❗❗❗❗❗❗\t\t\t");
-            if(this.isAreEmptyProccesors()){
-                System.out.println("🟡 Aunque se asignaron todas las tareas, con estas restricciones hay procesadores sin tareas asignadas.");
-            }
-            if(!this.taskQueue.isEmpty()){
-                System.out.println("❗ Hay tareas que con estas restricciones no pueden ser asignadas. Quedaron "+this.taskQueue.size()+" tareas en cola.");
+            if(this.isAreEmptyProccesors() && !this.taskQueue.isEmpty()){
+                System.out.println("❌ Con estas restricciones hay procesadores que quedaron sin tareas asignadas y tambien quedaron tareas en cola.");
+
+            }else{
+                if(this.isAreEmptyProccesors()){
+                    System.out.println("🟡 Aunque se asignaron todas las tareas, con estas restricciones hay procesadores sin tareas asignadas.");
+                }
+                if(!this.taskQueue.isEmpty()){
+                    System.out.println("❗ Hay tareas que con estas restricciones no pueden ser asignadas. Quedaron "+this.taskQueue.size()+" tareas en cola.");
+                }
             }
 
             System.out.println("Solucion parcial obtenida: \n");
