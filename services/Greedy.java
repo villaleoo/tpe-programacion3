@@ -166,28 +166,28 @@ public class Greedy {
             //si la tarea es critica, retorno true/false si el procesador tiene menos de 2 tareas criticas
             //-->si la tarea no es critica, el procesador refrigerado se considera adecuado para la tarea.
     private boolean isFactible(Processor p, Task t,Float x){
-        float getTimeExectTaskListP= this.getTimeExectTaskList(this.solution.get(p.getIdProc()));
-
         int MAX_CRITIC_TASKS = 2;
+        boolean taskIsCritic= t.isEsCritica();
+        int quantityCriticTaskInProcc= taskIsCritic ? this.getQuantityCriticTaskInProcc(p) : -1;
+        boolean isTotalCriticTaskBelowLimit= quantityCriticTaskInProcc < MAX_CRITIC_TASKS;
+
+
         if(!p.isCooled()){
-            if(getTimeExectTaskListP <= x){
-                if(getTimeExectTaskListP + t.getTiempo_ejecucion() > x){
-                    return false;
-                }else{
-                    if((t.isEsCritica())){
-                        return this.getQuantityCriticTaskInProcc(p) < MAX_CRITIC_TASKS;
-                    }
-                    return true;
-                }
+            float totalExecTimeTasksAssig= this.getTimeExectTaskList(this.solution.get(p.getIdProc()));
+            boolean isTotalExecTimeLessX = ((totalExecTimeTasksAssig <= x) && (totalExecTimeTasksAssig + t.getTiempo_ejecucion() <= x));
+
+            if(taskIsCritic){
+                return isTotalExecTimeLessX && isTotalCriticTaskBelowLimit;
             }
-        }else{
-            if(t.isEsCritica()){
-                return this.getQuantityCriticTaskInProcc(p) < MAX_CRITIC_TASKS;
-            }
-            return true;
+            return isTotalExecTimeLessX;
         }
 
-        return false;
+        //aca llegarian solo procesadores refrigerados
+        if(taskIsCritic){
+            return isTotalCriticTaskBelowLimit;
+        }
+
+        return true;
     }
 
     private Processor getProccShortExectTime(ArrayList<Processor> proccs){
