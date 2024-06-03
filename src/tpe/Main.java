@@ -13,15 +13,12 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Por favor, ingrese el valor X para minimizar el tiempo de ejecución: ");
-        float x = scanner.nextFloat();
-        Greedy g = new Greedy("./src/tpe/datasets/Procesadores.csv", "./src/tpe/datasets/Tareas.csv");
-        g.printAssigment(x);
+       
 
-
+    
         Services services = new Services("./src/tpe/datasets/Procesadores.csv", "./src/tpe/datasets/Tareas.csv");
         Backtracking backtracking = new Backtracking("./src/tpe/datasets/Procesadores.csv", "./src/tpe/datasets/Tareas.csv");
-
+        System.out.println("--------------- Primera parte --------------------");
 
         System.out.println("---------- SERVICIO 1 ----------");
         System.out.print("Por favor, ingrese el valor de la tarea a buscar: ");
@@ -53,10 +50,18 @@ public class Main {
         if (getTasksByPriorities != null && !getTasksByPriorities.isEmpty())
             System.out.println(getTasksByPriorities);
 
+        System.out.println("--------------- Segunda parte --------------------");
+        System.out.println("--------------- GREEDY ---------------------------");
+        System.out.print("Por favor, ingrese el valor X para minimizar el tiempo de ejecución: ");
+        float x = scanner.nextFloat();
+        Greedy g = new Greedy("./src/tpe/datasets/Procesadores.csv", "./src/tpe/datasets/Tareas.csv");
+        g.printAssigment(x);
+
         System.out.println("\n ----------- BACKTRACKING ----------");
 
         backtracking.getAssignments(x);
 
+        scanner.close();
 
 
     }
