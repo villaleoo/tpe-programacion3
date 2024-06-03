@@ -58,7 +58,8 @@ public class Services {
 
     /*
      * Expresar la complejidad temporal del servicio 3.
-     * La complejidad temporal es Log (n). En el peor de los casos accedera a todo el arbol, cuando se ingresen valores que incluyen todas las tareas
+     * La complejidad temporal es O(Log n), siendo n la cantidad de tareas.
+     * En el peor de los casos accedera a todo el arbol, cuando se ingresen valores que incluyen todas las tareas
      */
     public List<Task> servicio3(int prioridadInferior, int prioridadSuperior) {
         ArrayList<Task> tasks = this.taskController.findByPriorities(prioridadInferior, prioridadSuperior);

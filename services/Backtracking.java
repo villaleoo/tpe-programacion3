@@ -44,27 +44,46 @@ public class Backtracking {
 
     private void printSolution() {
         System.out.println("Solución obtenida");
+        System.out.println("\n📄 Lista de asignacion:\n");
         for (String key : taskAssignments.keySet()) {
             ArrayList<Task> tasks = taskAssignments.get(key);
             System.out.println("Tareas asignadas al procesador " + key);
             System.out.println(tasks);
         }
-        System.out.println("Tiempo de ejecución: " + this.minTime);
-        System.out.println("Cantidad de pasos generados: " + this.totalSteps);
+        if (!this.findSolution()) {
+            System.out.println("\t❌ Backtracking no encontró ninguna solución posible");
+            this.minTime = null;
+        }
+        System.out.println("\t⌚ Tiempo total de ejecucion: " + this.minTime);
+
+
+        System.out.println("\t📊 Cantidad de estados generados: " + this.totalSteps);
+    }
+
+    private boolean findSolution() {
+        int totalTasks = this.tasks.size();
+        int contTasks = 0;
+        for (Processor p : processors) {
+            ArrayList<Task> taskP = this.taskAssignments.get(p.getIdProc());
+            contTasks += taskP.size();
+        }
+
+        return contTasks == totalTasks;
     }
 
     /**
      * Este algoritmo busca exhaustivamente todas las posibles combinaciones de
      * asignaciones de tareas a procesadores, y selecciona la que minimiza el tiempo
-     * total de ejecución. Para esto se utiliza un Hash para asignar las tareas a los procesadores
-     * En cada paso de backtracking se evalúa si la solución encontrada minimiza el tiempo de ejecución
-     * total de las tareas (isBestSolution).
+     * total de ejecución.
+     * Para esto se utiliza un Hash para asignar las tareas a los procesadores
+     * En cada paso de backtracking se evalúa si la solución encontrada minimiza el tiempo de
+     * ejecución total de las tareas (isBestSolution).
      * Para la exploración de todas las posibles soluciones, se utiliza un for para recorrer
      * todos los procesadores en donde se pueda asignar la tarea actual. La asignación solo
      * es posible si cumple con las restricciones expresadas en el enunciado (canAssignTask)
-     * @param actualSol Solución actual en cada paso.
+     * @param actualSol      Solución actual en cada paso.
      * @param currentTaskPos Posición actual de la tarea a asignar
-     * @param x Parámetro enviado por el usuario para los procesadores no refrigerados
+     * @param x              Parámetro enviado por el usuario para los procesadores no refrigerados
      */
     private void getAssignmentsBacktracking(HashMap<String, ArrayList<Task>> actualSol, int currentTaskPos, float x) {
         if (currentTaskPos == tasks.size()) {
@@ -127,17 +146,14 @@ public class Backtracking {
     }
 
     private boolean canAssignTask(Processor p, Task t, HashMap<String, ArrayList<Task>> currentSol, float x) {
-        if (currentSol.containsKey(p.getIdProc())) {
-            ArrayList<Task> tasksAssigned = currentSol.get(p.getIdProc());
-            int countCriticTasks = (int) tasksAssigned.stream().filter(Task::isEsCritica).count();
-            if (!p.isCooled()) {
-                float executionTime = this.getExecutionTimeFromProcessor(tasksAssigned);
-                if (executionTime + t.getTiempo_ejecucion() > x)
-                    return false;
-            }
-            return countCriticTasks <= 2;
+        ArrayList<Task> tasksAssigned = currentSol.get(p.getIdProc());
+        int countCriticTasks = (int) tasksAssigned.stream().filter(Task::isEsCritica).count();
+        if (!p.isCooled()) {
+            float executionTime = this.getExecutionTimeFromProcessor(tasksAssigned);
+            if (executionTime + t.getTiempo_ejecucion() > x)
+                return false;
         }
-        return true;
+        return countCriticTasks < 2;
     }
 
     private void assignTask(HashMap<String, ArrayList<Task>> assignments, Processor p, Task t) {
