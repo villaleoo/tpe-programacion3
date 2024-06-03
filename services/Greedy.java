@@ -6,6 +6,9 @@ import tpe.utils.CSVReader;
 
 import java.util.*;
 
+//La estrategia greedy que se utilizo es a partir de 1 tarea. Apartar los procesadores que son aptos para esa tarea de la cola (cola ordenada por tiempo_ejecucion)
+//una vez encontrados los procesadores aptos, asignarle la tarea al que no tiene tareas asignadas Ó al que al momento tiene el menor tiempo de ejecucion total.
+//####################################################################################################################################################################
 
 //Se creo la funcion getAssigment que seria la funcion de estructura general/clasica de greedy:
     //se tiene un conjunto de solucion inicialmente vacio (solo con los procesadores cargados, sin tareas asignadas)
@@ -18,9 +21,9 @@ import java.util.*;
     //getBetterProccesor a medida que va encontrando procesadores aptos, los va agregando a una lista de procesadores posibles
     //cuando termina de obtener la lista de los procesadores posibles, se los envia a la funcion getProccShortExectTime para obtener, entre los posibles procesadores,
     //el procesador que no tiene ninguna tarea asignada (seria el mejor para minimizar tiempos) ó el que menor tiempo de ejecucion tiene al momento de asignar la tarea.
-
-//Una vez que se determina el mejor procesador para la primer tarea de la cola , getAssigment recibe el mejor procesador para
-//la primer tarea en la cola, por lo que asigna la tarea al procesador en la estructura de solucion (HashMap solution) y elimina la tarea de la cola.
+    //Una vez que se determina el mejor procesador para la primer tarea de la cola , getAssigment recibe el mejor procesador para
+    //la primer tarea en la cola, por lo que asigna la tarea al procesador en la estructura de solucion (HashMap solution) y elimina la tarea de la cola.
+    //se corta la iteracion de las tareas si se encuentra que una tarea no puede ser asignada a ningun procesador ó si se asignaron todas las tareas en cola.
 
 //SE LLEGA A LA SOLUCION UNA VEZ QUE LA COLA DE TAREAS ESTA VACIA. SE ITERA CADA TAREA, BUSCANDO EL PROCESADOR ADECUADO QUE MINIMIZA EL TIEMPO DE EJECUCION.
 //EL TIEMPO DE EJECUCION DE UN PROCESADOR ES LA SUMATORIA DEL TIEMPO DE EJECUCION DE LAS TAREAS QUE TIENE ASIGNADO.
@@ -30,10 +33,9 @@ import java.util.*;
 //getBetterProccesor -> itera cada procesador para encontrar el conjunto de procesadores que se les puede asignar la tarea.
 //isFactible -> la utiliza getBetterProccesor para determinar cual procesador es apto para la tarea y cual no es apto.
 //getProccShortExectTime -> la utiliza getBetterProccesor para determinar el procesador que minimiza el tiempo de ejecucion total. Trabaja con procesadores que son adecuados para 1 tarea
-// isOptimalSolution -> determina si la solucion alcanzada es optima. Con funciones auxiliares diferencia si hay procesadores que no se le incluyeron tareas ó si hay tareas
+//isOptimalSolution -> determina si la solucion alcanzada es optima. Con funciones auxiliares diferencia si hay procesadores que no se le incluyeron tareas ó si hay tareas
         //que no se pudieron asignar a ningun procesador.
         //Lo que influye en que la solucion no sea optima es principalmente el valor del numero X y la cantidad de tareas criticas en cola.
-
 
 
 public class Greedy {
@@ -117,33 +119,24 @@ public class Greedy {
         }
     }
 
-    //primero agrega todos los procesadres a la solucion, dado que todos los procesadores deben hacer al menos una tarea.
-    //itera la cola de tareas, buscando el mejor procesador para la tarea ubicada primera (tareas ordenadas por tiempo de ejecucion y prioridad)
     private void getAssigment(Float x){
         for(Processor p : this.proccList){
             this.solution.put(p.getIdProc(),new ArrayList<>());
         }
 
-
-        while(!this.taskQueue.isEmpty()){
-            Processor p = this.getBetterProccesor(this.taskQueue.peek(),x);
-
-            if(p == null){
-                return;
-            }
+        Processor p = this.getBetterProccesor(this.taskQueue.peek(),x);
+        while(!this.taskQueue.isEmpty() && p != null){
 
             this.solution.get(p.getIdProc()).add(this.taskQueue.poll());
 
+            if(!this.taskQueue.isEmpty()){
+                p = this.getBetterProccesor(this.taskQueue.peek(),x);
+            }
+
         }
-
-
-       //si la capacidad de los no refrigerados esta a tope && (todos los refrigerados tienen 2 criticas && la que viene es critica) || la que viene es critica y quedan procesadores sin 2 criticas
 
     }
 
-    //Esta funcion primero busca los procesadores que son candidatos a poder asignarle las tareas y los agrega a la lista de posibles
-    //Cuando obtiene la lista de los que son adecuados para la tarea, se la pasa a otra funcion que busca y
-    //obtiene el procesador con el tiempo minimo de ejecucion al momento, con el fin de achicar el tiempo maximo de ejecucion
     private Processor getBetterProccesor(Task t, Float X) {
         ArrayList<Processor> possibles=new ArrayList<>();
         Processor pMin;
@@ -196,9 +189,7 @@ public class Greedy {
 
         return false;
     }
-    
-    //entre los procesadores que cumplen los requisitos para asignarle la tarea,
-    //retorna el procesador que se encuentra vacio Ó el que tiene menor tiempo de ejecucion al momento
+
     private Processor getProccShortExectTime(ArrayList<Processor> proccs){
         float accTimeEjec=this.getTimeExectTaskList(this.solution.get(proccs.getFirst().getIdProc()));
         Processor pMin=proccs.getFirst();
@@ -237,7 +228,8 @@ public class Greedy {
         }
         return acc;
     }
-    
+
+    //retorna la info para imprimir del procesador mas cargado en cuanto a tiempo de ejecucion
     private ArrayList<String> getDataProccBigExecTime (){
         ArrayList<String> dataProcc = new ArrayList<>();
         float total=0;
@@ -273,8 +265,3 @@ public class Greedy {
     }
     
 }
-
-
-
-
-
