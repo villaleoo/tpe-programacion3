@@ -23,7 +23,8 @@ public class TaskController {
     }
 
     public Task findTaskById(String taskId) {
-        return SearchById.searchById(taskId);
+        String id = this.helper.caseSensitiveId(taskId);
+        return SearchById.searchById(id);
     }
 
     public ArrayList<Task> findCriticTasks() {

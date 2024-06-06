@@ -7,30 +7,18 @@ import java.util.ArrayList;
 
 public class Helper {
 
-    public int intTaskId(String id){
-        String pattern = "[tT](\\d+)";
-        java.util.regex.Pattern regex = java.util.regex.Pattern.compile(pattern);
-        java.util.regex.Matcher matcher = regex.matcher(id);
-
-        if (matcher.find()) {
-            return Integer.parseInt(matcher.group(1));
-        }
-        return -1;
-    }
-
-    public ArrayList<Node> parseTaskToNodeId(ArrayList<Task> tasks){
-        ArrayList<Node> result=new ArrayList<>();
-        int index=0;
-
-        for(Task t : tasks){
-           Node node = new Node(this.intTaskId(t.getId_tarea()));
-           node.addRef(index);
-           result.add(node);
-           index++;
+    public String caseSensitiveId (String id){
+        if (id == null || id.isEmpty()) {
+            return id;
         }
 
-        return result;
+        char firstChar = Character.toUpperCase(id.charAt(0));
+        String num = id.length() > 1 ? id.substring(1) : "";
+
+
+        return firstChar + num;
     }
+
 
     public ArrayList<Node> parseTaskToNodePriority(ArrayList<Task> tasks){
         ArrayList<Node> result = new ArrayList<>();

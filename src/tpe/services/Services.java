@@ -16,7 +16,7 @@ public class Services {
     private final TaskController taskController;
 
     /*
-     * Complejidad temporal: O(Max(n2, p)) siendo n las tareas del dataset, y p la
+     * Complejidad temporal: O(t) + O(p) siendo t la cantidad de tareas del dataset, y p la
      * cantidad de procesadores del dataset.
      * Esto se debe a que en el método readTasks se está recorriendo línea a línea el dataset
      * y se está agregando las tareas a las distintas estructuras utilizadas
@@ -58,8 +58,7 @@ public class Services {
 
     /*
      * Expresar la complejidad temporal del servicio 3.
-     * La complejidad temporal es O(Log n), siendo n la cantidad de tareas.
-     * En el peor de los casos accedera a todo el arbol, cuando se ingresen valores que incluyen todas las tareas
+     * La complejidad temporal es Log (n). En el peor de los casos accedera a todo el arbol, cuando se ingresen valores que incluyen todas las tareas
      */
     public List<Task> servicio3(int prioridadInferior, int prioridadSuperior) {
         ArrayList<Task> tasks = this.taskController.findByPriorities(prioridadInferior, prioridadSuperior);
