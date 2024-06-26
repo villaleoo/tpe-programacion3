@@ -8,7 +8,7 @@
 > > Esta lista de referencia sirve como informacion primaria para las distintas estructuras utilizadas en cada ***servicio*** y tambien para la **segunda parte** del trabajo. CSVReader tambien tiene un ArrayList para los procesadores, que es de utilidad para la **segunda parte** del trabajo.
 > ### ***Servicio 1***
 > > Para este servicio se utilizo una estructura de Hashing en su instancia de java HashMap.
-> > Se optó por esta estructura dado que con el ingreso de un ***id*** de tarea la busqueda en el HashMap tenderia a **O(1)** si hay un solo resultado referenciado en ese balde y O(log2 n) si en el balde solicitado hay mas tareas referenciadas.
+> > Se optó por esta estructura dado que con el ingreso de un ***id*** de tarea la busqueda en el HashMap tenderia a **O(1)** si hay un solo resultado referenciado en ese balde y O(log n) si en el balde solicitado hay mas tareas referenciadas.
 > > A esta estructura, dado que es estatica, le agrega las tareas el CSVReader a medida que va leyendo las tareas del dataset.
 > ### ***Servicio 2***
 > > Para este servicio se utilizaron 2 ArrayList estaticos. Uno que contiene las tareas que son criticas y otro que contiene las tareas que no son criticas.

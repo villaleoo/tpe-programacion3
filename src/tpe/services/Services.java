@@ -31,7 +31,7 @@ public class Services {
     }
 
     /*
-     * Complejidad temporal: O(log2 n) siendo n la cantidad de claves existentes en el hashmap.
+     * Complejidad temporal: O(1) correspondiente a hashing.
      * En este caso las claves representan a los ids de las tareas.
      */
     public Task service1(String id) {
@@ -58,7 +58,7 @@ public class Services {
 
     /*
      * Expresar la complejidad temporal del servicio 3.
-     * La complejidad temporal es Log (n). En el peor de los casos accedera a todo el arbol, cuando se ingresen valores que incluyen todas las tareas
+     * La complejidad temporal es Log2 (n). En el peor de los casos accedera a todo el arbol, cuando se ingresen valores que incluyen todas las tareas
      */
     public List<Task> servicio3(int prioridadInferior, int prioridadSuperior) {
         ArrayList<Task> tasks = this.taskController.findByPriorities(prioridadInferior, prioridadSuperior);
