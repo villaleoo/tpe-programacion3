@@ -25,11 +25,14 @@ public class SearchGroupPriority extends TreeTask {
             }
         });
 
+
         //crea los nodos acorde a las referencias por prioridad
         this.references= this.helper.parseTaskToNodePriority(this.refListInOrder);
 
+
         //inserta cada nodo en el arbol balanceadamente acorde a la lista de referencias
         this.insertRefsInBalancedOrder();
+
     }
 
     @Override
@@ -80,23 +83,20 @@ public class SearchGroupPriority extends TreeTask {
         return null;
     }
 
-    private void findByPriorities(Node tmp, int min,int max, ArrayList<Node> res){
-
-        if(tmp != null){
-            if(tmp.getId() >= min && tmp.getId() <= max){
+    private void findByPriorities(Node tmp, int min, int max, ArrayList<Node> res) {
+        if (tmp != null) {
+            if (tmp.getId() >= min && tmp.getId() <= max) {
                 res.add(tmp);
             }
 
-            if(tmp.getLeft() != null && tmp.getLeft().getId() >= min){
-                findByPriorities(tmp.getLeft(),min,max,res);
-
-            } else if (tmp.getRight() != null && tmp.getRight().getId() <= max) {
-                findByPriorities(tmp.getRight(),min,max,res);
-
+            if (tmp.getLeft() != null && tmp.getLeft().getId() >= min) {
+                findByPriorities(tmp.getLeft(), min, max, res);
             }
 
+            if (tmp.getRight() != null && tmp.getRight().getId() <= max) {
+                findByPriorities(tmp.getRight(), min, max, res);
+            }
         }
-
     }
 
     private void addRefs(Node tmp, Node newNode){
