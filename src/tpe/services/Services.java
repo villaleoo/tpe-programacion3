@@ -31,7 +31,7 @@ public class Services {
     }
 
     /*
-     * Complejidad temporal: O(log2 n) siendo n la cantidad de claves existentes en el hashmap.
+     * Complejidad temporal: O(1).
      * En este caso las claves representan a los ids de las tareas.
      */
     public Task service1(String id) {
