@@ -16,6 +16,8 @@ public class Backtracking {
     ArrayList<Task> tasks;
     ArrayList<Processor> processors;
 
+    HashMap<String, Float> processorsTime = new HashMap<>();
+
     int totalSteps = 0;
 
     public Backtracking(String pathProcessor, String pathTasks) {
@@ -38,6 +40,7 @@ public class Backtracking {
         for (Processor p : this.processors) {
             this.taskAssignments.put(p.getIdProc(), new ArrayList<>());
             currentSol.put(p.getIdProc(), new ArrayList<>());
+            this.processorsTime.put(p.getIdProc(), 0f);
         }
     }
 
@@ -97,17 +100,23 @@ public class Backtracking {
             Task currentTask = tasks.get(currentTaskPos);
             for (Processor processor : processors) {
                 if (this.canAssignTask(processor, currentTask, actualSol, x)) {
-                    this.assignTask(actualSol, processor, currentTask);
-                    currentTaskPos += 1;
-                    totalSteps += 1;
-                    getAssignmentsBacktracking(actualSol, currentTaskPos, x);
-                    currentTaskPos -= 1;
-                    this.unlinkTask(actualSol, processor, currentTask);
+                    if (!poda(processor, currentTask)) {
+                        this.assignTask(actualSol, processor, currentTask);
+                        currentTaskPos += 1;
+                        totalSteps += 1;
+                        getAssignmentsBacktracking(actualSol, currentTaskPos, x);
+                        currentTaskPos -= 1;
+                        this.unlinkTask(actualSol, processor, currentTask);
+                    }
                 }
             }
         }
     }
 
+    private boolean poda(Processor p, Task t) {
+        Float currentTimeProcessor = this.processorsTime.get(p.getIdProc());
+        return currentTimeProcessor + t.getTiempo_ejecucion() > this.minTime;
+    }
     private boolean isBestSolution(HashMap<String, ArrayList<Task>> currentSolution) {
         float currentExecutionTime = this.processorExecutionTime(currentSolution);
         return currentExecutionTime < this.minTime;
@@ -127,33 +136,25 @@ public class Backtracking {
         float maxTime = Float.MIN_VALUE;
         for (String key : taskAssignments.keySet()) {
             float executionTime = 0;
-            ArrayList<Task> tasks = taskAssignments.get(key);
-            executionTime += this.getExecutionTimeFromProcessor(tasks);
+            executionTime += this.processorsTime.get(key);
             if (executionTime > maxTime)
                 maxTime = executionTime;
         }
-
         return maxTime;
-    }
-
-    private Float getExecutionTimeFromProcessor(ArrayList<Task> tasks) {
-        float executionTime = 0;
-        for (Task t : tasks) {
-            executionTime += t.getTiempo_ejecucion();
-        }
-
-        return executionTime;
     }
 
     private boolean canAssignTask(Processor p, Task t, HashMap<String, ArrayList<Task>> currentSol, float x) {
         ArrayList<Task> tasksAssigned = currentSol.get(p.getIdProc());
         int countCriticTasks = (int) tasksAssigned.stream().filter(Task::isEsCritica).count();
+        if (t.isEsCritica()) countCriticTasks++;
+        if (countCriticTasks > 2) return false;
+
         if (!p.isCooled()) {
-            float executionTime = this.getExecutionTimeFromProcessor(tasksAssigned);
-            if (executionTime + t.getTiempo_ejecucion() > x)
-                return false;
+            float executionTime = this.processorsTime.get(p.getIdProc());
+            return !(executionTime + t.getTiempo_ejecucion() > x);
         }
-        return countCriticTasks < 2;
+
+        return true;
     }
 
     private void assignTask(HashMap<String, ArrayList<Task>> assignments, Processor p, Task t) {
@@ -161,6 +162,9 @@ public class Backtracking {
             assignments.put(p.getIdProc(), new ArrayList<>());
         }
         ArrayList<Task> assignedTasks = assignments.get(p.getIdProc());
+        Float currentProcessorTime = this.processorsTime.get(p.getIdProc());
+        currentProcessorTime += t.getTiempo_ejecucion();
+        this.processorsTime.put(p.getIdProc(), currentProcessorTime);
         assignedTasks.add(t);
     }
 
@@ -168,6 +172,10 @@ public class Backtracking {
         if (assignments.containsKey(p.getIdProc())) {
             ArrayList<Task> assignedTasks = assignments.get(p.getIdProc());
             assignedTasks.remove(t);
+            Float currentProcessorTime = this.processorsTime.get(p.getIdProc());
+            currentProcessorTime -= t.getTiempo_ejecucion();
+            this.processorsTime.put(p.getIdProc(), currentProcessorTime);
+
         }
     }
 }
