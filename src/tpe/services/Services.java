@@ -31,11 +31,8 @@ public class Services {
     }
 
     /*
-<<<<<<< HEAD
-     * Complejidad temporal: O(1).
-=======
      * Complejidad temporal: O(1) correspondiente a hashing.
->>>>>>> d25687c7e28cde1b0fa04eff1d1f3cbc68169d15
+
      * En este caso las claves representan a los ids de las tareas.
      */
     public Task service1(String id) {
