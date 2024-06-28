@@ -80,16 +80,16 @@ public class Greedy {
         ArrayList<String> dataProccBigTime= this.getDataProccBigExecTime();
 
         this.printEstateSolution();
-        System.out.println("\n\t💻 Valor ingresado de X: "+x+";");
-        System.out.println("\t📈 El procesador con mayor tiempo de ejecucion es: id_procesador = "+dataProccBigTime.getFirst()+";");
-        System.out.println("\t⌚ Tiempo total de ejecucion: "+dataProccBigTime.getLast()+". (sumatoria de tiempo_ejecucion de las tareas en el "+dataProccBigTime.getFirst()+");");
-        System.out.println("\t📄 Total de tareas en cola previo a comenzar la asignacion: "+this.qTask+";");
-        System.out.println("\t📊 Total de tareas que fueron asignadas a procesadores: "+(this.qTask - this.taskQueue.size())+";");
-        if(!this.taskQueue.isEmpty()){
-            System.out.println("\t❌ Tareas que quedaron en cola (sin asignar): "+this.taskQueue.size()+";");
+        if(this.isOptimalSolution()){
+            System.out.println("\n\t💻 Valor ingresado de X: "+x+";");
+            System.out.println("\t📈 El procesador con mayor tiempo de ejecucion es: id_procesador = "+dataProccBigTime.getFirst()+";");
+            System.out.println("\t⌚ Tiempo total de ejecucion: "+dataProccBigTime.getLast()+". (sumatoria de tiempo_ejecucion de las tareas en el "+dataProccBigTime.getFirst()+");");
+            System.out.println("\t📄 Total de tareas en cola previo a comenzar la asignacion: "+this.qTask+";");
+            System.out.println("\t📊 Total de tareas que fueron asignadas a procesadores: "+(this.qTask - this.taskQueue.size())+";");
+
         }
-        System.out.println("\n📄 Lista de asignacion:\n");
-        System.out.println(this.solution);
+
+
 
     }
 
@@ -104,10 +104,9 @@ public class Greedy {
             if(isEmptyProccessors){
                 System.out.println("❌ Con estas restricciones hay procesadores que quedaron sin tareas asignadas y tambien quedaron tareas en cola.");
             }else {
-                System.out.println("❗ Hay tareas que con estas restricciones no pueden ser asignadas. Quedaron "+this.taskQueue.size()+" tareas en cola.");
+                System.out.println("❗ Hay tareas que con estas restricciones no pueden ser asignadas. Al intentar resolver la asignacion quedaron "+this.taskQueue.size()+" tareas en cola.");
             }
 
-            System.out.println("Solucion parcial obtenida: \n");
         }else{
             System.out.println("\t\t\t✅ Solucion obtenida exitosamente ✅");
 
@@ -116,6 +115,8 @@ public class Greedy {
             }else{
                 System.out.println("✅ Todas las tareas fueron asignadas utilizando todos los procesadores y minimizando el tiempo de ejecucion.");
             }
+            System.out.println("\n📄 Lista de asignacion:\n");
+            System.out.println(this.solution);
         }
     }
 
